@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Área de Miembros – Desafío 21 Días Calistenia 3</title>
+  <meta name="description" content="Área de miembros para el Desafío de Calistenia 21 Días: Semana 2 Intensidad, Semana 3 Dominio, materiales y acceso a videos." />
+  <style>
+    :root{
+      --bg:#0e0e10; --panel:#151518; --card:#1b1b20; --accent:#ff2a2a; --muted:#9aa0a6; --text:#f2f2f3; --ok:#28a745; --warn:#e0a800;
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+      color:var(--text); background:radial-gradient(1200px 600px at 20% -10%, #2a2a32 0%, rgba(42,42,50,0) 60%), var(--bg);
+    }
+    .wrap{max-width:1120px; margin:0 auto; padding:24px}
+    header.hero{
+      position:relative; border:1px solid #25252c; border-radius:var(--radius); overflow:hidden; background:linear-gradient(135deg,#15161c 0%,#0f0f12 60%);
+      min-height:48vh; display:grid; place-items:center; text-align:center; padding:48px 24px; margin-top:16px;
+    }
+    .hero::after{
+      content:""; position:absolute; inset:-20% -20% auto auto; width:700px; height:700px; background:radial-gradient(closest-side,rgba(255,42,42,.15),rgba(255,42,42,0));
+      filter:blur(30px); pointer-events:none;
+    }
+    .hero h1{margin:0 0 12px; font-size:clamp(28px,4.2vw,44px); letter-spacing:.4px; text-transform:uppercase; color:var(--text)}
+    .hero p{margin:0 auto; max-width:860px; color:#d7d7dc; font-size:clamp(14px,2.2vw,18px); line-height:1.6}
+    .badges{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:18px}
+    .badge{background:#1d1d23; border:1px solid #2b2b34; color:#ddd; padding:8px 12px; border-radius:999px; font-size:13px}
+
+    nav.tabs{margin-top:28px; display:flex; gap:10px; flex-wrap:wrap}
+    .tab-btn{
+      appearance:none; background:#191a1f; color:#e8e8ec; border:1px solid #2a2a32; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:600; font-size:14px;
+      transition:all .2s;
+    }
+    .tab-btn[aria-selected="true"]{background:var(--accent); border-color:transparent; color:white}
+    .tab-btn:hover{transform:translateY(-1px)}
+
+    .panel{
+      margin-top:18px; background:var(--panel); border:1px solid #272730; border-radius:var(--radius); padding:22px;
+      display:none;
+    }
+    .panel.active{display:block}
+
+    .grid{display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); margin-top:8px}
+    .card{
+      background:var(--card); border:1px solid #2a2a32; border-radius:14px; padding:18px; transition:transform .2s,border-color .2s;
+      min-height:148px;
+    }
+    .card h3{margin:0 0 8px; font-size:18px; color:#fff}
+    .card p{margin:0; color:var(--muted); line-height:1.55}
+    .card:hover{transform:translateY(-3px); border-color:var(--accent)}
+
+    .list{margin:6px 0 0; padding-left:18px; color:#d5d7db}
+    .list li{margin:8px 0}
+
+    .cta{
+      margin-top:22px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+    }
+    .btn{
+      display:inline-block; border:none; background:var(--accent); color:#fff; font-weight:700; padding:12px 18px; border-radius:12px; cursor:pointer; text-decoration:none;
+    }
+    .btn.secondary{background:#23232a; color:#e7e7ea; border:1px solid #2c2c35}
+    .note{font-size:13px; color:var(--muted)}
+
+    .foot{
+      margin:28px 0 10px; color:#a8acb3; font-size:13px; text-align:center
+    }
+
+    /* Modal de acceso simple (front-end) */
+    .gate{
+      position:fixed; inset:0; background:rgba(8,8,10,.85); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; z-index:50;
+    }
+    .gate-card{
+      width:min(520px,92vw); background:#141418; border:1px solid #2a2a32; border-radius:18px; padding:22px;
+      box-shadow:0 30px 80px rgba(0,0,0,.45);
+    }
+    .gate-card h2{margin:0 0 6px; font-size:22px}
+    .gate-card p{margin:0 0 16px; color:#c9cbd2}
+    .form-row{display:flex; gap:10px; flex-wrap:wrap}
+    .in{
+      flex:1 1 240px; padding:12px 12px; border-radius:10px; border:1px solid #2b2b34; background:#1b1b21; color:#e9e9ef; outline:none;
+    }
+    .msg{margin-top:10px; min-height:18px; font-size:13px}
+    .ok{color:var(--ok)} .err{color:#ff6666}
+    .hint{margin-top:8px; color:#a9abb2; font-size:12px}
+    .drive-box{
+      margin-top:10px; padding:16px; border:1px dashed #3a3a44; border-radius:12px; background:#15151b;
+    }
+    .drive-box code{color:#e6e6ea}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="hero">
+      <div>
+        <h1>Desafío 21 Días de Calistenia 3</h1>
+        <p>
+          Prepárate para transformar tu cuerpo en 21 días con un plan progresivo en tres semanas. En la Semana 2 aumentas la intensidad y la progresión. En la Semana 3 desafías tu dominio técnico y cierras con un test final.
+        </p>
+        <div class="badges">
+          <span class="badge">Acceso inmediato</span>
+          <span class="badge">Rutinas guiadas</span>
+          <span class="badge">Solo peso corporal</span>
+          <span class="badge">Latinoamérica</span>
+        </div>
+        <nav class="tabs" role="tablist" aria-label="Navegación de módulos">
+          <button class="tab-btn" role="tab" aria-selected="true" data-target="#intro">Introducción</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-target="#semana2">Semana 2</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-target="#semana3">Semana 3</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-target="#materiales">Materiales</button>
+        </nav>
+      </div>
+    </header>
+
+    <section id="intro" class="panel active" role="tabpanel" aria-labelledby="tab-intro">
+      <h2>Programa Estructurado</h2>
+      <p>
+        Durante este desafío trabajarás por grupos musculares, elevando la carga y la dificultad de forma inteligente. La base se construye primero, luego subes intensidad y terminas dominando habilidades clave de calistenia.
+      </p>
+      <div class="cta">
+        <a class="btn" href="#materiales">Ir a Materiales</a>
+        <a class="btn secondary" href="#semana2">Ver Semana 2</a>
+      </div>
+      <p class="note">Sugerencia: realiza un calentamiento de 7–10 minutos antes de cada sesión y un enfriamiento de 5 minutos al terminar.</p>
+    </section>
+
+    <section id="semana2" class="panel" role="tabpanel" aria-labelledby="tab-semana2">
+      <h2>Semana 2: Intensidad y Progresión</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>PUSH Avanzado</h3>
+          <p>Push-ups explosivos, pseudo planche push-ups, dips con isometría.</p>
+        </article>
+        <article class="card">
+          <h3>PULL Avanzado</h3>
+          <p>Dominadas con peso, chin-up + isometría, remo australiano con pausa.</p>
+        </article>
+        <article class="card">
+          <h3>CORE Power</h3>
+          <p>V-ups, hanging leg raise, Russian twist, hollow hold, dragon flag.</p>
+        </article>
+        <article class="card">
+          <h3>HIIT Avanzado</h3>
+          <p>Burpee + pull-up, squat jump, push-up con palmada, L-sit crunch.</p>
+        </article>
+      </div>
+      <div class="cta">
+        <a class="btn" href="#materiales">Videos y clases</a>
+      </div>
+    </section>
+
+    <section id="semana3" class="panel" role="tabpanel" aria-labelledby="tab-semana3">
+      <h2>Semana 3: Desafío y Dominio</h2>
+      <ul class="list">
+        <li><strong>Días 15–16:</strong> Combinaciones PUSH & CORE y PULL & SKILLS para desarrollar fuerza superior.</li>
+        <li><strong>Días 17–18:</strong> Piernas funcionales y Fullbody Challenge para resistencia completa.</li>
+        <li><strong>Días 19–20:</strong> Skill Flux y Test Final para evaluar tu progreso.</li>
+        <li><strong>Día 21:</strong> Recuperación + Reflexión para celebrar tu evolución.</li>
+      </ul>
+      <div class="cta">
+        <a class="btn" href="#materiales">Abrir materiales</a>
+      </div>
+    </section>
+
+    <section id="materiales" class="panel" role="tabpanel" aria-labelledby="tab-materiales">
+      <h2>Acceso a Videos y Clases Prácticas</h2>
+      <p>Sigue las rutinas paso a paso con el material en video. Recomendación: descarga los clips clave para verlos sin conexión.</p>
+      <div class="drive-box">
+        <p>Enlace oficial al Drive:</p>
+        <p><a class="btn" target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1amdaMII9jgY7aeeho3jJ8NzRjTqNAr5Z">Acceder al Drive</a></p>
+        <p class="note">Si el enlace no abre en tu país, copia y pega esta URL en el navegador:</p>
+        <code>https://drive.google.com/drive/folders/1amdaMII9jgY7aeeho3jJ8NzRjTqNAr5Z</code>
+      </div>
+      <div class="cta">
+        <a class="btn secondary" href="#intro">Volver a Inicio</a>
+      </div>
+    </section>
+
+    <p class="foot">© 2025 Desafío Calistenia 3 — Todos los derechos reservados.</p>
+  </div>
+
+  <!-- Puerta de acceso simple (front-end). Nota: solo oculta contenido en el cliente -->
+  <div class="gate" id="gate" aria-modal="true" role="dialog">
+    <div class="gate-card">
+      <h2>Acceso de Miembros</h2>
+      <p>Ingresa la clave de acceso para entrar al contenido.</p>
+      <div class="form-row">
+        <input id="pass" class="in" type="password" placeholder="Clave de acceso" autocomplete="current-password" />
+        <button id="enterBtn" class="btn" type="button">Entrar</button>
+        <button id="skipBtn" class="btn secondary" type="button" title="Omitir en este dispositivo">Recordarme</button>
+      </div>
+      <div id="msg" class="msg" role="status"></div>
+      <p class="hint">Sugerencia: esta protección es solo visual. Para protección real, usa un backend o servicio de membresía.</p>
+    </div>
+  </div>
+
+  <script>
+    // Navegación por pestañas
+    const tabs = document.querySelectorAll(".tab-btn");
+    const panels = document.querySelectorAll(".panel");
+    tabs.forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        tabs.forEach(b=>b.setAttribute("aria-selected","false"));
+        btn.setAttribute("aria-selected","true");
+        const target = document.querySelector(btn.dataset.target);
+        panels.forEach(p=>p.classList.remove("active"));
+        target.classList.add("active");
+        // Enlace hash amigable
+        history.replaceState(null,"",btn.dataset.target);
+      });
+    });
+
+    // Puerta de acceso (demostración front-end)
+    // Clave por defecto: CALISTENIA21  (puedes cambiarla aquí)
+    const ACCESS_KEY_PLAIN = "CALISTENIA21";
+
+    // Guardamos un hash simple para no exponer en texto plano en localStorage
+    async function digest(text){
+      const enc = new TextEncoder().encode(text);
+      const buf = await crypto.subtle.digest("SHA-256", enc);
+      return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
+    }
+    const gateEl = document.getElementById("gate");
+    const passEl = document.getElementById("pass");
+    const msgEl = document.getElementById("msg");
+    const enterBtn = document.getElementById("enterBtn");
+    const skipBtn = document.getElementById("skipBtn");
+
+    // Comprobar si ya está desbloqueado en este dispositivo
+    (async function initGate(){
+      const stored = localStorage.getItem("calis_gate_hash");
+      const real = await digest(ACCESS_KEY_PLAIN);
+      if(stored && stored === real){
+        gateEl.style.display="none";
+      }else{
+        passEl.focus();
+      }
+    })();
+
+    async function tryOpen(){
+      const val = passEl.value.trim();
+      if(!val){
+        msgEl.textContent = "Ingresa la clave.";
+        msgEl.className = "msg err";
+        return;
+      }
+      const inputHash = await digest(val);
+      const realHash = await digest(ACCESS_KEY_PLAIN);
+      if(inputHash === realHash){
+        msgEl.textContent = "Acceso concedido.";
+        msgEl.className = "msg ok";
+        gateEl.style.opacity = "0";
+        setTimeout(()=>{ gateEl.style.display="none"; }, 160);
+      }else{
+        msgEl.textContent = "Clave incorrecta.";
+        msgEl.className = "msg err";
+      }
+    }
+
+    enterBtn.addEventListener("click", tryOpen);
+    passEl.addEventListener("keydown", e=>{ if(e.key==="Enter") tryOpen(); });
+
+    // Recordarme: guarda el hash correcto localmente sin mostrar la clave
+    skipBtn.addEventListener("click", async ()=>{
+      const realHash = await digest(ACCESS_KEY_PLAIN);
+      localStorage.setItem("calis_gate_hash", realHash);
+      msgEl.textContent = "Se recordará este dispositivo.";
+      msgEl.className = "msg ok";
+      gateEl.style.opacity = "0";
+      setTimeout(()=>{ gateEl.style.display="none"; }, 160);
+    });
+
+    // Si llega con hash en URL, activa panel correspondiente
+    window.addEventListener("DOMContentLoaded",()=>{
+      const h = location.hash;
+      if(h){
+        const btn = [...tabs].find(b=>b.dataset.target===h);
+        if(btn){ btn.click(); }
+      }
+    });
+  </script>
+</body>
+</html>
